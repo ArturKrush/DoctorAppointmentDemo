@@ -8,11 +8,13 @@ namespace MyDoctorAppointment
     {
         private readonly IDoctorService _doctorService;
         private readonly IPatientService _patientService;
+        private readonly IAppointmentService _appointmentService;
 
         public DoctorAppointment()
         {
             _doctorService = new DoctorService();
             _patientService = new PatientService();
+            _appointmentService = new AppointmentService();
         }
 
         public void Menu()
@@ -48,12 +50,10 @@ namespace MyDoctorAppointment
             foreach (var doc in docs)
             {
                 Console.WriteLine(doc.Name);
-            }*/
+            }
             
-            var patients = _patientService.GetAll();
             Console.WriteLine("Adding patient: ");
-
-            /*var newPatient = new Patient
+            var newPatient = new Patient
             {
                 Name = "Mykola",
                 Surname = "Romanov",
@@ -61,14 +61,33 @@ namespace MyDoctorAppointment
                 IllnessType = Domain.Enums.IllnessTypes.Infection
             };
 
-            _patientService.Create(newPatient);*/
+            _patientService.Create(newPatient);
 
             Console.WriteLine("Current patients list: ");
-            patients = _patientService.GetAll();
+            var patients = _patientService.GetAll();
 
             foreach (var patient in patients)
             {
                 Console.WriteLine(patient.Name);
+            }
+            */
+            List<Doctor> docs = (List<Doctor>)_doctorService.GetAll();
+            List<Patient> patients = (List<Patient>)_patientService.GetAll();
+
+            Console.WriteLine("Adding an appointment: ");
+            var newAppointment = new Appointment
+            {
+                Description = "Some detail information.",
+                Doctor = docs[0],
+                Patient = patients[0],
+            };
+
+            _appointmentService.Create(newAppointment);
+            var appointments = _appointmentService.GetAll();
+
+            foreach (var appointment in appointments)
+            {
+                Console.WriteLine(appointment.Description);
             }
         }
     }

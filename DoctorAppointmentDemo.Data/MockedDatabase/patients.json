@@ -1,1 +1,14 @@
-﻿
+[
+  {
+    "IllnessType": 2,
+    "AdditionalInfo": "Often busy on mondays",
+    "Address": null,
+    "Name": "Mykola",
+    "Surname": "Romanov",
+    "Phone": null,
+    "Email": null,
+    "Id": 1,
+    "CreatedAt": "2025-11-24T23:07:18.2183023+02:00",
+    "UpdatedAt": "0001-01-01T00:00:00"
+  }
+]
