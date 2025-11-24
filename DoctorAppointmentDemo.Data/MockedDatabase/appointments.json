@@ -1,0 +1,34 @@
+[
+  {
+    "Patient": {
+      "IllnessType": 2,
+      "AdditionalInfo": "Often busy on mondays",
+      "Address": null,
+      "Name": "Mykola",
+      "Surname": "Romanov",
+      "Phone": null,
+      "Email": null,
+      "Id": 1,
+      "CreatedAt": "2025-11-24T23:07:18.2183023+02:00",
+      "UpdatedAt": "0001-01-01T00:00:00"
+    },
+    "Doctor": {
+      "DoctorType": 2,
+      "Experience": 10,
+      "Salary": 0.0,
+      "Name": "Yaroslav",
+      "Surname": "Lysak",
+      "Phone": null,
+      "Email": null,
+      "Id": 2,
+      "CreatedAt": "2024-01-04T21:15:00.5742047+02:00",
+      "UpdatedAt": "0001-01-01T00:00:00"
+    },
+    "DateTimeFrom": "0001-01-01T00:00:00",
+    "DateTimeTo": "0001-01-01T00:00:00",
+    "Description": "Some detail information.",
+    "Id": 1,
+    "CreatedAt": "2025-11-24T23:07:57.4669948+02:00",
+    "UpdatedAt": "0001-01-01T00:00:00"
+  }
+]

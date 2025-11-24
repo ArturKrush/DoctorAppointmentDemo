@@ -3,7 +3,6 @@ using MyDoctorAppointment.Domain.Entities;
 using MyDoctorAppointment.Data.Repositories;
 using MyDoctorAppointment.Data.Interfaces;
 
-
 namespace MyDoctorAppointment.Service.Services
 {
     public class PatientService : IPatientService
