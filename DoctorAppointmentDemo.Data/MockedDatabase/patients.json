@@ -5,10 +5,22 @@
     "Address": null,
     "Name": "Mykola",
     "Surname": "Romanov",
-    "Phone": null,
+    "Phone": "+380678543244",
     "Email": null,
     "Id": 1,
     "CreatedAt": "2025-11-24T23:07:18.2183023+02:00",
+    "UpdatedAt": "0001-01-01T00:00:00"
+  },
+  {
+    "IllnessType": 5,
+    "AdditionalInfo": "Comes to the clinic for the first visit",
+    "Address": "Odesa, Ataman Golovatyi st., 15",
+    "Name": "Vadim",
+    "Surname": "Alexandrov",
+    "Phone": "+380939345671",
+    "Email": null,
+    "Id": 2,
+    "CreatedAt": "2025-11-25T13:16:16.0753959+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"
   }
 ]
