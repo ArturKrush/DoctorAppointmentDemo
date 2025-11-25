@@ -69,6 +69,6 @@ namespace MyDoctorAppointment.Data.Repositories
 
         protected abstract void SaveLastId();
 
-        protected dynamic ReadFromAppSettings() => JsonConvert.DeserializeObject<dynamic>(File.ReadAllText(Constants.AppSettingsPath))!;
+        protected AppSettings ReadFromAppSettings() => JsonConvert.DeserializeObject<AppSettings>(File.ReadAllText(Constants.AppSettingsPath))!;
     }
 }
