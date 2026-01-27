@@ -2,7 +2,7 @@
   {
     "DoctorType": 2,
     "Experience": 10,
-    "Salary": 0.0,
+    "Salary": 2250.0,
     "Name": "Yaroslav",
     "Surname": "Lysak",
     "Phone": "+380638395105",
@@ -14,7 +14,7 @@
   {
     "DoctorType": 4,
     "Experience": 20,
-    "Salary": 0.0,
+    "Salary": 3750.0,
     "Name": "Vasya",
     "Surname": "Petrov",
     "Phone": "+380981358763",
@@ -25,14 +25,14 @@
   },
   {
     "DoctorType": 2,
-    "Experience": 12,
-    "Salary": 0.0,
+    "Experience": 13,
+    "Salary": 3000.0,
     "Name": "Kyrylo",
     "Surname": "Kullikov",
     "Phone": "+380503166549",
     "Email": null,
     "Id": 5,
     "CreatedAt": "2025-11-25T13:10:21.3442946+02:00",
-    "UpdatedAt": "0001-01-01T00:00:00"
+    "UpdatedAt": "2026-01-27T19:21:27.6746374+02:00"
   }
 ]

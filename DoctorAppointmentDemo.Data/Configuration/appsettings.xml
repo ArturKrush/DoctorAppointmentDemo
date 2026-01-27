@@ -6,7 +6,7 @@
       <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\doctors.xml</Path>
     </XMLSource>
     <JSONSource>
-      <LastId>6</LastId>
+      <LastId>8</LastId>
       <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\doctors.json</Path>
     </JSONSource>
   </Doctors>
