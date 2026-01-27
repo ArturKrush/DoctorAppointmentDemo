@@ -9,6 +9,11 @@ namespace MyDoctorAppointment.Data.Configuration
     public class AppSettings
     {
         public DatabaseSettings Database { get; set; }
+
+        public AppSettings()
+        {
+            Database = new DatabaseSettings();
+        }
     }
 
     public class DatabaseSettings
@@ -16,6 +21,13 @@ namespace MyDoctorAppointment.Data.Configuration
         public DoctorsSettings Doctors { get; set; }
         public PatientsSettings Patients { get; set; }
         public AppointmentsSettings Appointments { get; set; }
+
+        public DatabaseSettings()
+        {
+            Doctors = new DoctorsSettings();
+            Patients = new PatientsSettings();
+            Appointments = new AppointmentsSettings();
+        }
     }
 
     public class DoctorsSettings

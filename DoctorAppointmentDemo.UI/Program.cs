@@ -1,4 +1,6 @@
-﻿using MyDoctorAppointment.Domain.Entities;
+﻿using MyDoctorAppointment.Data.Interfaces;
+using MyDoctorAppointment.Domain.Entities;
+using MyDoctorAppointment.Domain.Enums;
 using MyDoctorAppointment.Service.Interfaces;
 using MyDoctorAppointment.Service.Services;
 
@@ -10,11 +12,11 @@ namespace MyDoctorAppointment
         private readonly IPatientService _patientService;
         private readonly IAppointmentService _appointmentService;
 
-        public DoctorAppointment()
+        public DoctorAppointment(ISerializationService serializationService)
         {
-            _doctorService = new DoctorService();
-            _patientService = new PatientService();
-            _appointmentService = new AppointmentService();
+            _doctorService = new DoctorService(serializationService);
+            _patientService = new PatientService(serializationService);
+            _appointmentService = new AppointmentService(serializationService);
         }
 
         public void Menu()
@@ -29,43 +31,46 @@ namespace MyDoctorAppointment
 
             while (true)
             {
+                //Getting user type: Doctor or Patient
                 Console.WriteLine("Who are you? If you are Patient enter - 0, if you are Doctor - 1");
                 do
                 {
+                    //Input must be able to be converted to the integer and to be mapped for UserType enum 
                     result = int.TryParse(Console.ReadLine(), out userNumber) &&
                         Enum.IsDefined(typeof(UserType), userNumber);
 
                     if (!result)
-                        Console.WriteLine("Code must be integer from 1 or 2. " +
+                        Console.WriteLine("Code must be an integer 0 or 1. " +
                             "Try again.");
                 }
                 while (!result);
-
                 UserType userType = (UserType)userNumber;
 
                 switch (userType)
                 {
                     case UserType.Patient:
+                        //List of doctors is shown to the patient
                         Console.WriteLine("Doctors in our clinic: ");
                         foreach (var doc in doctors)
                         {
-                            Console.WriteLine(doc.Name + " " + doc.Surname + "\t" +
-                                "Specialty: " + doc.DoctorType.ToString() + "\t"
-                                + "Years of experience: " + doc.Experience + "\t"
-                                + "Telephone number: " + doc.Phone);
+                            //Console.WriteLine(doc.Name + " " + doc.Surname + "\t" +
+                            //    "Specialty: " + doc.DoctorType.ToString() + "\t"
+                            //    + "Years of experience: " + doc.Experience + "\t"
+                            //    + "Telephone number: " + doc.Phone);
+                            _doctorService.ShowInfo(doc);
                         }
-
                         Console.WriteLine("-------");
-                        Console.WriteLine("To which doctor you want to make an appointment?");
 
+                        //Identifiying the doctor the user would like to make an appointment with
+                        Console.WriteLine("To which doctor you want to make an appointment?");
 
                         for (int i = 0; i < docCounter; i++)
                         {
                             Console.WriteLine("Enter {0} for doctor {1} {2}", i, doctors[i].Name, doctors[i].Surname);
                         }
-
                         do
                         {
+                            //Identifying if the input is valid and the doctor with input number was listed
                             result = int.TryParse(Console.ReadLine(), out doctorNumber) &&
                                 doctorNumber >= 0 && doctorNumber <= docCounter - 1;
 
@@ -74,33 +79,35 @@ namespace MyDoctorAppointment
                                     "Try again.", docCounter - 1);
                         }
                         while (!result);
-
-                        Console.WriteLine("-------");
                         goalDoc = doctors[doctorNumber];
+                        Console.WriteLine("-------");
 
+                        //Showing to the patient periods when doctor, which was chosen, is busy
                         Console.WriteLine("Doctor's appointments, when doctor is busy:");
                         foreach (var appointment in appointments)
                         {
                             if (goalDoc.Equals(appointment.Doctor))
                             {
+                                //Зробити ShowInfo
                                 Console.WriteLine(appointment.Description + "\t" +
                                     "Time from: " + appointment.DateTimeFrom + "\t" +
                                     "Time to: " + appointment.DateTimeTo);
                             }
                         }
-
                         Console.WriteLine("Please, come when the doctor is free.");
                         Console.WriteLine("-------");
                         break;
+
                     case UserType.Doctor:
+                        //Doctor is "logging in"
                         Console.WriteLine("Who are you, doctor?");
                         for (int i = 0; i < docCounter; i++)
                         {
                             Console.WriteLine("Enter {0} if you are {1} {2}", i, doctors[i].Name, doctors[i].Surname);
                         }
-
                         do
                         {
+                            //Identifying if the input is valid and the doctor with input number was listed
                             result = int.TryParse(Console.ReadLine(), out doctorNumber) &&
                                 doctorNumber >= 0 && doctorNumber <= docCounter - 1;
 
@@ -109,14 +116,16 @@ namespace MyDoctorAppointment
                                     "Try again.", docCounter - 1);
                         }
                         while (!result);
-
-                        Console.WriteLine("-------");
                         goalDoc = doctors[doctorNumber];
+                        Console.WriteLine("-------");
+
+                        //Showing to the doctor his appointments
                         Console.WriteLine("These are your appointments:");
                         foreach (var appointment in appointments)
                         {
                             if (goalDoc.Equals(appointment.Doctor))
                             {
+                                // Зробити ShowInfo для Appointment та Doctor
                                 Console.WriteLine(appointment.Description + "\t" +
                                     "Time from: " + appointment.DateTimeFrom + "\t" +
                                     "Time to: " + appointment.DateTimeTo);
@@ -133,32 +142,79 @@ namespace MyDoctorAppointment
         }
         public void TestCreatingDoctor()
         {
-            Console.WriteLine("Current doctors list: ");
-            var docs = _doctorService.GetAll();
-
-            foreach (var doc in docs)
-            {
-                Console.WriteLine(doc.Name);
-            }
+            //Console.WriteLine("Current doctors list: ");
+            //foreach (var doc in _doctorService.GetAll())
+            //{
+            //    _doctorService.ShowInfo(doc);
+            //}
 
             Console.WriteLine("Adding doctor: ");
 
             var newDoctor = new Doctor
             {
-                Name = "Kyrylo",
-                Surname = "Kullikov",
-                Experience = 12,
-                DoctorType = Domain.Enums.DoctorTypes.Dermatologist
+                Name = "Eugen",
+                Surname = "Afanasyev",
+                Experience = 15,
+                DoctorType = DoctorTypes.FamilyDoctor,
+                Email = "eugen1962@ukr.net",
+                Phone = "+380951036483",
+                Salary = 3500
             };
-
             _doctorService.Create(newDoctor);
 
-            Console.WriteLine("Doctors list after changes: ");
-            docs = _doctorService.GetAll();
+            Console.WriteLine("Doctors list after inserting: ");
 
-            foreach (var doc in docs)
+            foreach (var doc in _doctorService.GetAll())
             {
-                Console.WriteLine(doc.Name);
+                _doctorService.ShowInfo(doc);
+            }
+            Console.WriteLine("------");
+        }
+
+        public void TestDeletingDoctor(int id)
+        {
+            //Console.WriteLine("Current doctors list: ");
+            //foreach (var doc in _doctorService.GetAll())
+            //{
+            //    _doctorService.ShowInfo(doc);
+            //}
+
+            Console.WriteLine("Deleting doctor: ");
+            _doctorService.Delete(id);
+
+            Console.WriteLine("Doctors list after deleting: ");
+            foreach (var doc in _doctorService.GetAll())
+            {
+                _doctorService.ShowInfo(doc);
+            }
+            Console.WriteLine("------");
+        }
+
+        public void TestUpdatingDoctor(int id)
+        {
+            //Console.WriteLine("Current doctors list: ");
+            //foreach (var doc in _doctorService.GetAll())
+            //{
+            //    _doctorService.ShowInfo(doc);
+            //}
+
+            Console.WriteLine("Updating doctor: ");
+            var doctor = _doctorService.Get(id);
+            if(doctor is null)
+            {
+                Console.WriteLine("There is no doctor with such ID.");
+                return;
+            }
+
+            doctor.Salary = 4000;
+            ++doctor.Experience;
+
+            _doctorService.Update(id, doctor);
+
+            Console.WriteLine("Doctors list after updating: ");
+            foreach (var doc in _doctorService.GetAll())
+            {
+                _doctorService.ShowInfo(doc);
             }
             Console.WriteLine("------");
         }
@@ -180,7 +236,7 @@ namespace MyDoctorAppointment
                 Name = "Vadim",
                 Surname = "Alexandrov",
                 AdditionalInfo = "Comes to the clinic for the first visit",
-                IllnessType = Domain.Enums.IllnessTypes.Ambulance,
+                IllnessType = IllnessTypes.Ambulance,
                 Address = "Odesa, Ataman Golovatyi st., 15"
             };
 
@@ -233,15 +289,55 @@ namespace MyDoctorAppointment
             Doctor
         }
     }
+
     public static class Program
     {
+        private static DoctorAppointment? doctorAppointment;
         public static void Main()
         {
-            var doctorAppointment = new DoctorAppointment();
-            doctorAppointment.Menu();
+            ChooseStorageFormat();
+
+            //doctorAppointment.Menu();
+
             //doctorAppointment.TestCreatingDoctor();
             //doctorAppointment.TestCreatingPatient();
             //doctorAppointment.TestCreatingAppointment();
+
+            //doctorAppointment.TestDeletingDoctor(5);
+            doctorAppointment.TestUpdatingDoctor(1);
+        }
+
+        public static void ChooseStorageFormat()
+        {
+            bool result;
+            int storageNumber;
+            //Getting storage type: XML or JSON
+            Console.WriteLine("Where do you want to save data? For XML enter - 0, for JSON - 1");
+            do
+            {
+                result = int.TryParse(Console.ReadLine(), out storageNumber) &&
+                    Enum.IsDefined(typeof(StorageTypes), storageNumber);
+
+                if (!result)
+                    Console.WriteLine("Code must be integer 0 or 1. " +
+                        "Try again.");
+            }
+            while (!result);
+            StorageTypes storageType = (StorageTypes)storageNumber;
+
+            //Passing data storage service as a parameter based on user choice
+            switch (storageType)
+            {
+                case StorageTypes.XML:
+                    Console.WriteLine("You chose XML as data storage format.");
+                    doctorAppointment = new DoctorAppointment(new XmlSerializerService());
+                    break;
+                case StorageTypes.JSON:
+                    Console.WriteLine("You chose JSON as data storage format.");
+                    doctorAppointment = new DoctorAppointment(new JsonSerializerService());
+                    break;
+            }
+            Console.WriteLine("AppSettings are stored in XML format.");
         }
     }
 }

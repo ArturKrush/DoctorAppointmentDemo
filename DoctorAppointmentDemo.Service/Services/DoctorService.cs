@@ -9,9 +9,9 @@ namespace MyDoctorAppointment.Service.Services
     {
         private readonly IDoctorRepository _doctorRepository;
 
-        public DoctorService()
+        public DoctorService(ISerializationService serializationService)
         {
-            _doctorRepository = new DoctorRepository();
+            _doctorRepository = new DoctorRepository(serializationService);
         }
 
         public Doctor Create(Doctor doctor)
@@ -37,6 +37,11 @@ namespace MyDoctorAppointment.Service.Services
         public Doctor Update(int id, Doctor doctor)
         {
             return _doctorRepository.Update(id, doctor);
+        }
+
+        public void ShowInfo(Doctor doctor)
+        {
+            _doctorRepository.ShowInfo(doctor);
         }
     }
 }
