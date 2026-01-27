@@ -13,5 +13,7 @@ namespace MyDoctorAppointment.Data.Interfaces
         IEnumerable<TSource> GetAll();
 
         bool Delete(int id);
+
+        void ShowInfo(TSource source);
     }
 }

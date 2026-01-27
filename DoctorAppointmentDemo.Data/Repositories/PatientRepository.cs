@@ -12,7 +12,7 @@ namespace MyDoctorAppointment.Data.Repositories
 
         public override int LastId { get; set; }
 
-        public PatientRepository()
+        public PatientRepository(ISerializationService serializationService) : base(serializationService)
         {
             AppSettings result = ReadFromAppSettings();
 

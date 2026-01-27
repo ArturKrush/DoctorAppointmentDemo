@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database>
+  <Doctors>
+    <XMLSource>
+      <LastId>4</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\doctors.xml</Path>
+    </XMLSource>
+    <JSONSource>
+      <LastId>8</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\doctors.json</Path>
+    </JSONSource>
+  </Doctors>
+  <Patients>
+    <XMLSource>
+      <LastId>0</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\patients.xml</Path>
+    </XMLSource>
+    <JSONSource>
+      <LastId>2</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\patients.json</Path>
+    </JSONSource>
+  </Patients>
+  <Appointments>
+    <XMLSource>
+      <LastId>0</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\appointments.xml</Path>
+    </XMLSource>
+    <JSONSource>
+      <LastId>2</LastId>
+      <Path>..\..\..\..\DoctorAppointmentDemo.Data\MockedDatabase\appointments.json</Path>
+    </JSONSource>
+  </Appointments>
+</Database>

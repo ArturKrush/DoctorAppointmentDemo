@@ -9,9 +9,9 @@ namespace MyDoctorAppointment.Service.Services
     {
         private readonly IPatientRepository _patientRepository;
 
-        public PatientService()
+        public PatientService(ISerializationService serializationService)
         {
-            _patientRepository = new PatientRepository();
+            _patientRepository = new PatientRepository(serializationService);
         }
 
         public Patient Create(Patient patient)

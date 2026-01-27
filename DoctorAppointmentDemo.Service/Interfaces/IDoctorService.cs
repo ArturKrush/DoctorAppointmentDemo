@@ -13,5 +13,7 @@ namespace MyDoctorAppointment.Service.Interfaces
         bool Delete(int id);
 
         Doctor Update(int id, Doctor doctor);
+
+        void ShowInfo(Doctor doctor);
     }
 }

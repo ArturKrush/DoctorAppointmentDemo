@@ -15,9 +15,9 @@ namespace MyDoctorAppointment.Service.Services
     {
         private readonly IAppointmentRepository _appointmentRepository;
 
-        public AppointmentService()
+        public AppointmentService(ISerializationService serializationService)
         {
-            _appointmentRepository = new AppointmentRepository();
+            _appointmentRepository = new AppointmentRepository(serializationService);
         }
 
         public Appointment Create(Appointment appointment)
