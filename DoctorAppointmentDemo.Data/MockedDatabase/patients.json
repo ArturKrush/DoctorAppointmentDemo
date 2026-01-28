@@ -1,12 +1,12 @@
 [
   {
-    "IllnessType": 2,
+    "IllnessType": 4,
     "AdditionalInfo": "Often busy on mondays",
-    "Address": null,
+    "Address": "Odesa, Prymorsky boulevard, 25",
     "Name": "Mykola",
     "Surname": "Romanov",
     "Phone": "+380678543244",
-    "Email": null,
+    "Email": "mykola228@gmail.com",
     "Id": 1,
     "CreatedAt": "2025-11-24T23:07:18.2183023+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"
@@ -18,7 +18,7 @@
     "Name": "Vadim",
     "Surname": "Alexandrov",
     "Phone": "+380939345671",
-    "Email": null,
+    "Email": "vadimka.alexandrov@ukr.net",
     "Id": 2,
     "CreatedAt": "2025-11-25T13:16:16.0753959+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"

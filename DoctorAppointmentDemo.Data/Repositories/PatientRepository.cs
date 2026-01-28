@@ -3,6 +3,7 @@ using MyDoctorAppointment.Data.Interfaces;
 using MyDoctorAppointment.Domain.Entities;
 using System;
 using System.Numerics;
+using System.Xml.Linq;
 
 namespace MyDoctorAppointment.Data.Repositories
 {
@@ -23,7 +24,7 @@ namespace MyDoctorAppointment.Data.Repositories
         public override void ShowInfo(Patient patient)
         {
             Console.WriteLine(patient.Name + " " + patient.Surname);
-            Console.WriteLine("Number is system: {0}", patient.Id);
+            //Console.WriteLine("Number is system: {0}", patient.Id);
             Console.WriteLine("Patients address: {0}", patient.Address);
             Console.WriteLine("Phone number: {0}", patient.Phone);
             Console.WriteLine("Email: {0}", patient.Email);
@@ -34,10 +35,31 @@ namespace MyDoctorAppointment.Data.Repositories
 
         protected override void SaveLastId()
         {
-            AppSettings result = ReadFromAppSettings();
-            result.Database.Patients.LastId = LastId;
+            XDocument xDoc = XDocument.Load(Constants.AppSettingsPath);
+            XElement? xCommon = xDoc.Element("Database").Element("Patients");
+            XElement? lastId;
 
-            File.WriteAllText(Constants.AppSettingsPath, result.ToString());
+            switch (SerializationService.Storage)
+            {
+                case Domain.Enums.StorageTypes.JSON:
+                    lastId = xCommon.Element("JSONSource").Element("LastId");
+                    if (lastId != null)
+                        lastId.Value = LastId.ToString();
+                    else
+                        throw new InvalidOperationException($"Structure in AppSettings is broken." +
+                            $"Cannot find LastId in Patients/JSONSource");
+                    break;
+                case Domain.Enums.StorageTypes.XML:
+                    lastId = xCommon.Element("XMLSource").Element("LastId");
+                    if (lastId != null)
+                        lastId.Value = LastId.ToString();
+                    else
+                        throw new InvalidOperationException($"Structure in AppSettings is broken." +
+                            $"Cannot find LastId in Patients/XMLSource");
+                    break;
+            }
+
+            xDoc.Save(Constants.AppSettingsPath);
         }
     }
 }

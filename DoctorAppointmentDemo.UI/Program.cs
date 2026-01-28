@@ -12,15 +12,19 @@ namespace MyDoctorAppointment
         public static void Main()
         {
             ChooseStorageFormat();
-
-            //doctorAppointment.Menu();
+            doctorAppointment.Menu();
 
             //doctorAppointment.TestCreatingDoctor();
-            //doctorAppointment.TestCreatingPatient();
-            //doctorAppointment.TestCreatingAppointment();
-
             //doctorAppointment.TestDeletingDoctor(9);
             //doctorAppointment.TestUpdatingDoctor(5);
+
+            //doctorAppointment.TestCreatingPatient();
+            //doctorAppointment.TestDeletingPatient(5);
+            //doctorAppointment.TestUpdatingPatient(5);
+
+            //doctorAppointment.TestCreatingAppointment(4, 5);
+            //doctorAppointment.TestDeletingAppointment(1);
+            //doctorAppointment.TestUpdatingAppointment(2);
         }
 
         public static void ChooseStorageFormat()

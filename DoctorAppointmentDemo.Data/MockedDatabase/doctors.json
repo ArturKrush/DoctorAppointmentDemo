@@ -6,7 +6,7 @@
     "Name": "Yaroslav",
     "Surname": "Lysak",
     "Phone": "+380638395105",
-    "Email": null,
+    "Email": "yaroslav.lysak@ukr.net",
     "Id": 2,
     "CreatedAt": "2024-01-04T21:15:00.5742047+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"
@@ -18,7 +18,7 @@
     "Name": "Vasya",
     "Surname": "Petrov",
     "Phone": "+380981358763",
-    "Email": null,
+    "Email": "vasyapetrov@gmail.com",
     "Id": 3,
     "CreatedAt": "2024-01-04T21:15:10.6132587+02:00",
     "UpdatedAt": "0001-01-01T00:00:00"

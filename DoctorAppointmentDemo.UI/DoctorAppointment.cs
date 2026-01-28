@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyDoctorAppointment.UI
+namespace MyDoctorAppointment
 {
     public class DoctorAppointment
     {
@@ -29,10 +29,10 @@ namespace MyDoctorAppointment.UI
             bool result;
             int userNumber;
             int doctorNumber;
-            List<Doctor> doctors = (List<Doctor>)_doctorService.GetAll();
+            List<Doctor> doctors = _doctorService.GetAll().ToList();
             int docCounter = doctors.Count;
             Doctor goalDoc;
-            List<Appointment> appointments = (List<Appointment>)_appointmentService.GetAll();
+            List<Appointment> appointments = _appointmentService.GetAll().ToList();
 
             while (true)
             {
@@ -58,20 +58,16 @@ namespace MyDoctorAppointment.UI
                         Console.WriteLine("Doctors in our clinic: ");
                         foreach (var doc in doctors)
                         {
-                            //Console.WriteLine(doc.Name + " " + doc.Surname + "\t" +
-                            //    "Specialty: " + doc.DoctorType.ToString() + "\t"
-                            //    + "Years of experience: " + doc.Experience + "\t"
-                            //    + "Telephone number: " + doc.Phone);
                             _doctorService.ShowInfo(doc);
                         }
                         Console.WriteLine("-------");
 
                         //Identifiying the doctor the user would like to make an appointment with
-                        Console.WriteLine("To which doctor you want to make an appointment?");
+                        Console.WriteLine("To which patient you want to make an appointment?");
 
                         for (int i = 0; i < docCounter; i++)
                         {
-                            Console.WriteLine("Enter {0} for doctor {1} {2}", i, doctors[i].Name, doctors[i].Surname);
+                            Console.WriteLine("Enter {0} for patient {1} {2}", i, doctors[i].Name, doctors[i].Surname);
                         }
                         do
                         {
@@ -93,10 +89,9 @@ namespace MyDoctorAppointment.UI
                         {
                             if (goalDoc.Equals(appointment.Doctor))
                             {
-                                //Зробити ShowInfo
-                                Console.WriteLine(appointment.Description + "\t" +
-                                    "Time from: " + appointment.DateTimeFrom + "\t" +
-                                    "Time to: " + appointment.DateTimeTo);
+                                Console.WriteLine($"Appointment title: {appointment.Description}");
+                                Console.WriteLine($"Starts: {appointment.DateTimeFrom}");
+                                Console.WriteLine($"Ends: {appointment.DateTimeTo}");
                             }
                         }
                         Console.WriteLine("Please, come when the doctor is free.");
@@ -105,7 +100,7 @@ namespace MyDoctorAppointment.UI
 
                     case UserType.Doctor:
                         //Doctor is "logging in"
-                        Console.WriteLine("Who are you, doctor?");
+                        Console.WriteLine("What is your name, doctor?");
                         for (int i = 0; i < docCounter; i++)
                         {
                             Console.WriteLine("Enter {0} if you are {1} {2}", i, doctors[i].Name, doctors[i].Surname);
@@ -126,19 +121,9 @@ namespace MyDoctorAppointment.UI
 
                         //Showing to the doctor his appointments
                         Console.WriteLine("These are your appointments:");
-                        foreach (var appointment in appointments)
+                        foreach (var appointment in appointments.Where(a => a.Doctor.Id == goalDoc.Id))
                         {
-                            if (goalDoc.Equals(appointment.Doctor))
-                            {
-                                // Зробити ShowInfo для Appointment та Doctor
-                                Console.WriteLine(appointment.Description + "\t" +
-                                    "Time from: " + appointment.DateTimeFrom + "\t" +
-                                    "Time to: " + appointment.DateTimeTo);
-                                Console.WriteLine("Patient: " + appointment.Patient.Name + " " +
-                                    appointment.Patient.Surname + "\t" + "Patient's illness: "
-                                    + appointment.Patient.IllnessType.ToString() + "\t" +
-                                    "Patient's phone number: " + appointment.Patient.Phone);
-                            }
+                            _appointmentService.ShowInfo(appointment);
                         }
                         Console.WriteLine("-------");
                         break;
@@ -153,7 +138,7 @@ namespace MyDoctorAppointment.UI
                 _doctorService.ShowInfo(doc);
             }
 
-            Console.WriteLine("Adding doctor: ");
+            Console.WriteLine("Adding a doctor ");
 
             var newDoctor = new Doctor
             {
@@ -184,7 +169,7 @@ namespace MyDoctorAppointment.UI
             //    _doctorService.ShowInfo(doc);
             //}
 
-            Console.WriteLine("Deleting doctor: ");
+            Console.WriteLine("Deleting a doctor");
             _doctorService.Delete(id);
 
             Console.WriteLine("Doctors list after deleting: ");
@@ -197,17 +182,11 @@ namespace MyDoctorAppointment.UI
 
         public void TestUpdatingDoctor(int id)
         {
-            //Console.WriteLine("Current doctors list: ");
-            //foreach (var doc in _doctorService.GetAll())
-            //{
-            //    _doctorService.ShowInfo(doc);
-            //}
-
-            Console.WriteLine("Updating doctor: ");
+            Console.WriteLine("Updating doctor");
             var doctor = _doctorService.Get(id);
             if (doctor is null)
             {
-                Console.WriteLine("There is no doctor with such ID.");
+                Console.WriteLine("There is no patient with such ID.");
                 return;
             }
 
@@ -226,65 +205,130 @@ namespace MyDoctorAppointment.UI
 
         public void TestCreatingPatient()
         {
-            Console.WriteLine("Current patients list: ");
-            var patients = _patientService.GetAll();
+            //Console.WriteLine("Current patients list: ");
 
-            foreach (var patient in patients)
-            {
-                Console.WriteLine(patient.Name);
-            }
+            //foreach (var patient in _patientService.GetAll())
+            //{
+            //    _patientService.ShowInfo(patient);
+            //}
 
-            Console.WriteLine("Adding patient: ");
+            Console.WriteLine("Adding a patient");
 
             var newPatient = new Patient
             {
-                Name = "Vadim",
-                Surname = "Alexandrov",
-                AdditionalInfo = "Comes to the clinic for the first visit",
-                IllnessType = IllnessTypes.Ambulance,
-                Address = "Odesa, Ataman Golovatyi st., 15"
+                Name = "Artem",
+                Surname = "Koledenko",
+                AdditionalInfo = "Comes with sore throat.",
+                IllnessType = IllnessTypes.Infection,
+                Email = "artyom.koledenko228@gmail.com",
+                Phone = "+380954567890",
+                Address = "Odesa, Taras Shevchenko avenue, 7"
             };
 
             _patientService.Create(newPatient);
 
             Console.WriteLine("Patients list after changes: ");
-            patients = _patientService.GetAll();
-
-            foreach (var patient in patients)
+            foreach (var patient in _patientService.GetAll())
             {
-                Console.WriteLine(patient.Name);
+                _patientService.ShowInfo(patient);
             }
             Console.WriteLine("------");
         }
 
-        public void TestCreatingAppointment()
+        public void TestDeletingPatient(int id)
         {
-            Console.WriteLine("Current appointments list: ");
-            var appointments = _appointmentService.GetAll();
+            //Console.WriteLine("Current patients list: ");
+            //foreach (var patient in _patientService.GetAll())
+            //{
+            //    _patientService.ShowInfo(patient);
+            //}
 
-            foreach (var appointment in appointments)
+            Console.WriteLine("Deleting a patient");
+            _patientService.Delete(id);
+
+            Console.WriteLine("Patients list after deleting: ");
+            foreach (var patient in _patientService.GetAll())
             {
-                Console.WriteLine(appointment.Description);
+                _patientService.ShowInfo(patient);
+            }
+            Console.WriteLine("------");
+        }
+
+        public void TestUpdatingPatient(int id)
+        {
+            Console.WriteLine("Updating a patient ");
+            var patient = _patientService.Get(id);
+            if (patient is null)
+            {
+                Console.WriteLine("There is no patient with such ID.");
+                return;
             }
 
+            patient.Email = "artyom.koledenko228@ukr.net";
+            patient.Address = "Odesa, French boulevard, 71";
+
+            _patientService.Update(id, patient);
+
+            Console.WriteLine("Patient after updating: ");
+            _patientService.ShowInfo(patient);
+            Console.WriteLine("------");
+        }
+
+        public void TestCreatingAppointment(int patientId, int doctorId)
+        {
             List<Doctor> docs = _doctorService.GetAll().ToList();
             List<Patient> patients = _patientService.GetAll().ToList();
 
-            Console.WriteLine("Adding an appointment: ");
+            Console.WriteLine("Adding an appointment");
             var newAppointment = new Appointment
             {
                 Description = "Ambulance, urgent appointment",
-                Doctor = docs.FirstOrDefault(d => d.Id == 3),
-                Patient = patients.FirstOrDefault(p => p.Id == 2),
+                Doctor = docs.FirstOrDefault(d => d.Id == doctorId),
+                Patient = patients.FirstOrDefault(p => p.Id == patientId),
+                DateTimeFrom = new DateTime(2026, 1, 11, 10, 00, 0),
+                DateTimeTo = new DateTime(2026, 1, 11, 10, 40, 0)
             };
 
             _appointmentService.Create(newAppointment);
-            appointments = _appointmentService.GetAll();
 
-            foreach (var appointment in appointments)
+            Console.WriteLine("Created appointment: ");
+            _appointmentService.ShowInfo(newAppointment);
+        }
+
+        public void TestDeletingAppointment(int id)
+        {
+            Console.WriteLine("Current appointments list: ");
+            foreach (var appointment in _appointmentService.GetAll())
             {
-                Console.WriteLine(appointment.Description);
+                _appointmentService.ShowInfo(appointment);
             }
+
+            Console.WriteLine("Deleting an appointment");
+            _appointmentService.Delete(id);
+
+            Console.WriteLine("Appointment list after deleting: ");
+            foreach (var appointment in _appointmentService.GetAll())
+            {
+                _appointmentService.ShowInfo(appointment);
+            }
+            Console.WriteLine("------");
+        }
+
+        public void TestUpdatingAppointment(int id)
+        {
+            Console.WriteLine("Updating an appointment ");
+            var appointment = _appointmentService.Get(id);
+            if (appointment is null)
+            {
+                Console.WriteLine("There is no appointment with such ID.");
+                return;
+            }
+
+            appointment.Description = "Complaints about the sore throat";
+            _appointmentService.Update(id, appointment);
+
+            Console.WriteLine("Appointment after updating: ");
+            _appointmentService.ShowInfo(appointment);
             Console.WriteLine("------");
         }
 
