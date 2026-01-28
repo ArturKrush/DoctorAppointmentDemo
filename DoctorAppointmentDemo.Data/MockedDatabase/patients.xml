@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfPatient xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Patient>
+    <Id>4</Id>
+    <CreatedAt>2026-01-27T21:52:19.1884578+02:00</CreatedAt>
+    <UpdatedAt>2026-01-27T22:02:38.0905331+02:00</UpdatedAt>
+    <Name>Artem</Name>
+    <Surname>Koledenko</Surname>
+    <Phone>+380954567890</Phone>
+    <Email>artyom.kolyadenko228@ukr.net</Email>
+    <IllnessType>Infection</IllnessType>
+    <AdditionalInfo>Comes with sore throat.</AdditionalInfo>
+    <Address>Odesa, French boulevard, 71</Address>
+  </Patient>
+</ArrayOfPatient>

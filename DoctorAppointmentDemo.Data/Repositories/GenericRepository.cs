@@ -32,7 +32,7 @@ namespace MyDoctorAppointment.Data.Repositories
 
             List<TSource> list;
 
-            //If the storage file is empty, new list is created
+            //If the storage XML-file is empty, new list is created
             try
             {
                 var existingData = GetAll();
